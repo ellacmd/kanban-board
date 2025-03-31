@@ -20,10 +20,13 @@
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     overscroll-behavior: none;
+    @apply bg-soft-light dark:bg-dark-secondary transition-colors duration-300;
 }
+
 button {
     cursor: pointer;
 }
+
 button:disabled {
     cursor: not-allowed;
 }

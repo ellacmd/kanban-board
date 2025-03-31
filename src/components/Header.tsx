@@ -8,7 +8,7 @@ const Header = () => {
     const { theme } = useTheme();
 
     return (
-        <header className='bg-white dark:bg-gray-dark flex items-center h-[96px]'>
+        <header className='w-full bg-white dark:bg-gray-dark flex items-center h-[96px] fixed left-0 z-10'>
             {theme === 'light' ? (
                 <img src={logoDark} alt='' className='pr-[113px] pl-[32px] ' />
             ) : (
@@ -21,7 +21,7 @@ const Header = () => {
                     Platform Launch
                 </h1>
                 <div className='flex items-center gap-10'>
-                    <button className='text-white bg-primary flex items-center rounded-full px-6 py-4 gap-2 font-bold'>
+                    <button className='text-white bg-primary flex items-center rounded-full px-6 py-4 gap-2 font-bold  hover:bg-primary-light'>
                         <img src={addIcon} alt='' />
                         Add New Task
                     </button>
