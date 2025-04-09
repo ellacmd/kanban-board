@@ -1,7 +1,8 @@
-import addIcon from '../assets/icon-add-task-mobile.svg';
-import addIconGray from '../assets/icon-add-task-mobile gray.svg';
-import showIcon from '../assets/icon-show-sidebar.svg';
+import { useBoard } from '../context/BoardContext';
 import Column from './Column';
+import addIconGray from '../assets/icon-add-task-mobile gray.svg';
+import addIconPurple from '../assets/icon-add-task-mobile purple.svg';
+import showIcon from '../assets/icon-show-sidebar.svg';
 
 interface ContentProps {
     onShow: () => void;
@@ -9,50 +10,82 @@ interface ContentProps {
 }
 
 const Content = ({ onShow, show }: ContentProps) => {
+    const { currentBoard, isLoading, error } = useBoard();
+
+    if (error) return <div>Error: {error.message}</div>;
+
     return (
         <main
             className={`dark:bg-dark-secondary bg-soft-light min-h-[87vh] flex-1
-            transition-[margin] duration-300 ease-in-out mt-[96px] overflow-scroll
+            transition-[margin] duration-300 ease-in-out mt-[96px] overflow-scroll 
             ${show ? 'ml-[300px]' : 'ml-0'}`}>
             {!show && (
                 <button
                     onClick={onShow}
                     className='bg-primary rounded-r-full w-fit p-4 fixed bottom-6 
-                        hover:bg-primary-light transition-colors'>
+                        hover:bg-primary-light transition-colors '>
                     <img src={showIcon} alt='show sidebar' />
                 </button>
             )}
-            <div className='min-h-full '>
-                {/* <div className='flex items-center justify-center'> */}
-                {/* <div>
-                    <p className='text-gray-light'>
-                        This board is empty. Create a new column to get started.
-                    </p>
-                    <button
-                        className='text-white bg-primary hover:bg-primary-light 
-                        transition-colors flex items-center rounded-full px-6 py-4 
-                        gap-2 font-bold mx-auto mt-8'>
-                        <img src={addIcon} alt='add icon' />
-                        Add New Column
-                    </button>
-                </div> */}
-                {/* </div> */}
 
-                <div className='flex justify-start gap-4 p-6'>
-                    <Column />
-                    <Column />
-                    <div
-                        className='h-[550px] mt-12 rounded-lg   w-[280px]  text-gray-light font-bold flex justify-center text-3xl
-                    
-                    bg-gradient-to-b from-[#AFB6B9]/20 via-[#AFB6B9]/10 to-[#AFB6B9]/0
-                  
-                  '>
-                        {' '}
-                        <button className='flex items-center gap-4'>
-                            <img src={addIconGray} alt='' /> New Column
-                        </button>
+            <div className='min-h-full p-6'>
+                {isLoading ? (
+                    <div className='flex gap-4'>
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className='w-[280px]'>
+                                <div className='h-8 bg-gray-200 dark:bg-gray-700 rounded mb-4 animate-pulse' />
+                                <div className='space-y-4'>
+                                    {[1, 2, 3].map((j) => (
+                                        <div
+                                            key={j}
+                                            className='h-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse'
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                </div>
+                ) : !currentBoard?.columns?.length ? (
+                    <div className='flex items-center justify-center h-full translate-y-50 '>
+                        <div className='text-center'>
+                            <p className='text-gray-light'>
+                                This board is empty. Create a new column to get
+                                started.
+                            </p>
+                            <button
+                                className='text-white bg-primary hover:bg-primary-light 
+                                    transition-colors flex items-center rounded-full px-6 py-4 
+                                    gap-2 font-bold mx-auto mt-8 '>
+                                Add New Column
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className='flex justify-start gap-4'>
+                        {currentBoard?.columns.map((column, index) => (
+                            <Column key={index} column={column} />
+                        ))}
+
+                        <div
+                            className='h-[550px] mt-12 rounded-lg min-w-[280px] text-gray-light font-bold flex justify-center text-3xl
+                        bg-gradient-to-b from-[#BBC2C6]/30 via-[#BBC2C6]/20 to-[#BBC2C6]/0 
+                        dark:from-[#AFB6B9]/20 dark:via-[#AFB6B9]/10 dark:to-[#AFB6B9]/0'>
+                            <button className='flex items-center gap-4 group hover:text-primary transition-colors self-center justify-self-center'>
+                                <img
+                                    src={addIconGray}
+                                    alt=''
+                                    className='group-hover:hidden'
+                                />
+                                <img
+                                    src={addIconPurple}
+                                    alt=''
+                                    className='hidden group-hover:block'
+                                />
+                                New Column
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </main>
     );
