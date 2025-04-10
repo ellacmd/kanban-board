@@ -1,7 +1,7 @@
 import { useBoard } from '../context/BoardContext';
 import { boardService } from '../services/boardService';
 import { useState } from 'react';
-import StatusDropdown from './StatusDropdown';
+import StatusDropdown from '../services/StatusDropdown';
 import toast from 'react-hot-toast';
 import { createClient } from '@supabase/supabase-js';
 
@@ -23,9 +23,24 @@ const AddTaskModal = ({ onClose }: AddTaskModalProps) => {
         Array<{ id: string; title: string; isCompleted: boolean }>
     >([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [titleError, setTitleError] = useState('');
+
+    const validateTitle = (value: string) => {
+        if (!value.trim()) {
+            setTitleError("Can't be empty");
+            return false;
+        }
+        setTitleError('');
+        return true;
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!validateTitle(title)) {
+            return;
+        }
+
         setIsLoading(true);
         try {
             const targetColumn = currentBoard?.columns.find(
@@ -78,7 +93,6 @@ const AddTaskModal = ({ onClose }: AddTaskModalProps) => {
             toast.success('Task created successfully');
             onClose();
         } catch (error) {
-            console.error('Failed to create task:', error);
             toast.error('Failed to create task');
         } finally {
             setIsLoading(false);
@@ -125,12 +139,22 @@ const AddTaskModal = ({ onClose }: AddTaskModalProps) => {
                             type='text'
                             id='title'
                             value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            className='w-full p-2 border border-gray-light rounded-lg dark:bg-dark-secondary dark:text-white dark:border-gray-dark'
+                            onChange={(e) => {
+                                setTitle(e.target.value);
+                                if (titleError) validateTitle(e.target.value);
+                            }}
+                            onBlur={(e) => validateTitle(e.target.value)}
+                            className={`w-full p-2 border ${
+                                titleError
+                                    ? 'border-red-500 focus:border-red-500'
+                                    : 'border-gray-light dark:border-gray-dark focus:border-primary'
+                            } rounded-lg dark:bg-dark-secondary dark:text-white`}
                             placeholder='e.g. Take coffee break'
-                            required
                             disabled={isLoading}
                         />
+                        {titleError && (
+                            <p className='text-red-500 text-sm'>{titleError}</p>
+                        )}
                     </div>
 
                     <div className='mb-6'>
@@ -215,25 +239,26 @@ const AddTaskModal = ({ onClose }: AddTaskModalProps) => {
                         <button
                             type='button'
                             onClick={handleAddSubtask}
-                            className='w-full mt-3 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-lg hover:bg-[#d8d7f1] transition-colors'
+                            className='w-full mt-3 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-full hover:bg-[#d8d7f1] transition-colors'
                             disabled={isLoading}>
                             + Add New Subtask
                         </button>
                     </div>
 
                     <div className='flex gap-4'>
-                        <button
-                            type='submit'
-                            className='flex-1 p-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-light transition-colors'
-                            disabled={isLoading}>
-                            Create Task
-                        </button>
+                        
                         <button
                             type='button'
                             onClick={onClose}
-                            className='flex-1 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-lg hover:bg-[#d8d7f1] transition-colors'
+                            className='flex-1 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-full hover:bg-[#d8d7f1] transition-colors'
                             disabled={isLoading}>
                             Cancel
+                        </button>
+                        <button
+                            type='submit'
+                            className='flex-1 p-2 bg-primary text-white font-bold rounded-full hover:bg-primary-light transition-colors'
+                            disabled={isLoading}>
+                            Create Task
                         </button>
                     </div>
                 </form>

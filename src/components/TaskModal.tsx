@@ -4,7 +4,7 @@ import { useBoard } from '../context/BoardContext';
 import { boardService } from '../services/boardService';
 import { useRef, useState } from 'react';
 import EditTaskModal from './EditTaskModal';
-import StatusDropdown from './StatusDropdown';
+import StatusDropdown from '../services/StatusDropdown';
 import toast from 'react-hot-toast';
 
 interface TaskModalProps {

@@ -2,7 +2,7 @@ import { Task } from '../types';
 import { useBoard } from '../context/BoardContext';
 import { boardService } from '../services/boardService';
 import { useState } from 'react';
-import StatusDropdown from './StatusDropdown';
+import StatusDropdown from '../services/StatusDropdown';
 import toast from 'react-hot-toast';
 
 interface EditTaskModalProps {
@@ -30,7 +30,6 @@ const EditTaskModal = ({ task, onClose }: EditTaskModalProps) => {
                 return;
             }
 
-          
             await boardService.updateTask(task.id, {
                 title,
                 description,
@@ -42,7 +41,6 @@ const EditTaskModal = ({ task, onClose }: EditTaskModalProps) => {
                 })),
             });
 
-   
             if (currentBoard) {
                 const updatedBoard = {
                     ...currentBoard,
@@ -214,7 +212,7 @@ const EditTaskModal = ({ task, onClose }: EditTaskModalProps) => {
                         <button
                             type='button'
                             onClick={handleAddSubtask}
-                            className='w-full mt-3 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-lg hover:bg-[#d8d7f1] transition-colors'
+                            className='w-full mt-3 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-full hover:bg-[#d8d7f1] transition-colors'
                             disabled={isLoading}>
                             + Add New Subtask
                         </button>
@@ -222,17 +220,17 @@ const EditTaskModal = ({ task, onClose }: EditTaskModalProps) => {
 
                     <div className='flex gap-4'>
                         <button
-                            type='submit'
-                            className='flex-1 p-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-light transition-colors'
-                            disabled={isLoading}>
-                            Save Changes
-                        </button>
-                        <button
                             type='button'
                             onClick={onClose}
-                            className='flex-1 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-lg hover:bg-[#d8d7f1] transition-colors'
+                            className='flex-1 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-full hover:bg-[#d8d7f1] transition-colors'
                             disabled={isLoading}>
                             Cancel
+                        </button>
+                        <button
+                            type='submit'
+                            className='flex-1 p-2 bg-primary text-white font-bold rounded-full hover:bg-primary-light transition-colors'
+                            disabled={isLoading}>
+                            Save Changes
                         </button>
                     </div>
                 </form>

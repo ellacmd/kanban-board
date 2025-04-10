@@ -26,15 +26,34 @@ export const boardService = {
         return data as Board;
     },
 
-    async createBoard(name: string) {
-        const { data, error } = await supabase
+    async createBoard(name: string, columns: { name: string }[]) {
+
+        const { data: board, error: boardError } = await supabase
             .from('boards')
             .insert([{ name }])
             .select()
             .single();
 
-        if (error) throw error;
-        return data as Board;
+        if (boardError) throw boardError;
+
+
+        const columnsToCreate = columns.map((column, index) => ({
+            name: column.name,
+            board_id: board.id,
+            order: index,
+        }));
+
+        const { error: columnsError } = await supabase
+            .from('columns')
+            .insert(columnsToCreate);
+
+        if (columnsError) {
+  
+            await supabase.from('boards').delete().eq('id', board.id);
+            throw columnsError;
+        }
+
+        return board;
     },
 
     async updateBoard(id: string, updates: Partial<Board>) {
@@ -167,15 +186,37 @@ export const boardService = {
         if (error) throw error;
     },
 
-    async createColumn(boardId: string, name: string) {
+    async createColumn(
+        boardId: string,
+        column: { name: string; order: number }
+    ) {
+      
+        const { data: maxOrderData, error: maxOrderError } = await supabase
+            .from('columns')
+            .select('order')
+            .eq('board_id', boardId)
+            .order('order', { ascending: false })
+            .limit(1)
+            .single();
+
+        if (maxOrderError && maxOrderError.code !== 'PGRST116') {
+            console.error('Error getting max order:', maxOrderError);
+            throw maxOrderError;
+        }
+
+        const nextOrder = (maxOrderData?.order ?? -1) + 1;
+
+   
         const { data, error } = await supabase
             .from('columns')
-            .insert([{ name, board_id: boardId }])
+            .insert([
+                { name: column.name, board_id: boardId, order: nextOrder },
+            ])
             .select()
             .single();
 
         if (error) throw error;
-        return data as Column;
+        return data;
     },
 
     async updateColumn(columnId: string, updates: Partial<Column>) {
@@ -191,6 +232,14 @@ export const boardService = {
     },
 
     async deleteColumn(columnId: string) {
+     
+        const { error: tasksError } = await supabase
+            .from('tasks')
+            .delete()
+            .eq('column_id', columnId);
+
+        if (tasksError) throw tasksError;
+
         const { error } = await supabase
             .from('columns')
             .delete()

@@ -3,17 +3,20 @@ import { Toaster } from 'react-hot-toast';
 import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 import Header from './components/Header';
+import CreateBoardModal from './components/CreateBoardModal';
 
 export default function App() {
     const [showSidebar, setShowSidebar] = useState(true);
+    const [showCreateBoard, setShowCreateBoard] = useState(false);
 
     return (
         <div className='relative dark:bg-dark-secondary bg-soft-light'>
             <Header />
-            <div className='flex'>
+         
                 <Sidebar
                     onHide={() => setShowSidebar(false)}
                     show={showSidebar}
+                    onCreateBoard={() => setShowCreateBoard(true)}
                 />
 
                 <div>
@@ -22,7 +25,10 @@ export default function App() {
                         show={showSidebar}
                     />
                 </div>
-            </div>
+   
+            {showCreateBoard && (
+                <CreateBoardModal onClose={() => setShowCreateBoard(false)} />
+            )}
             <Toaster
                 toastOptions={{
                     duration: 3000,
