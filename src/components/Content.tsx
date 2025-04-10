@@ -14,7 +14,7 @@ interface ContentProps {
 }
 
 const Content = ({ onShow, show }: ContentProps) => {
-    const { currentBoard, isLoading, error } = useBoard();
+    const { currentBoard, isLoading } = useBoard();
     const [showAddColumn, setShowAddColumn] = useState(false);
 
     return (

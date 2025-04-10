@@ -26,7 +26,7 @@ const Column = ({ column }: ColumnProps) => {
     const [{ isOver }, drop] = useDrop({
         accept: 'TASK',
         canDrop: () => true,
-        hover: (item: any, monitor) => {
+        hover: (_, monitor) => {
             if (!monitor.isOver({ shallow: true })) return;
         },
         drop: async (item: {

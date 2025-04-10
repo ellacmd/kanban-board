@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import boardIcon from '../assets/icon-board.svg';
 import plusIcon from '../assets/icon-add-task-mobile purple.svg';
 import purpleBoardIcon from '../assets/icon-board purple.svg';
@@ -8,7 +8,6 @@ import lightIcon from '../assets/icon-light-theme.svg';
 import darkIcon from '../assets/icon-dark-theme.svg';
 import { useTheme } from '../context/ThemeContext';
 import { useBoard } from '../context/BoardContext';
-import CreateBoardModal from './CreateBoardModal';
 
 interface SidebarProps {
     onHide: () => void;
