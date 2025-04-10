@@ -26,7 +26,7 @@ const Content = ({ onShow, show }: ContentProps) => {
                 <button
                     onClick={onShow}
                     className='bg-primary rounded-r-full w-fit p-4 fixed bottom-6 
-                        hover:bg-primary-light transition-colors '>
+                        hover:bg-primary-light '>
                     <img src={showIcon} alt='show sidebar' />
                 </button>
             )}
@@ -58,7 +58,7 @@ const Content = ({ onShow, show }: ContentProps) => {
                             <button
                                 onClick={() => setShowAddColumn(true)}
                                 className='text-white bg-primary hover:bg-primary-light 
-                                    transition-colors flex items-center rounded-full px-6 py-4 
+                                   flex items-center rounded-full px-6 py-4 
                                     gap-2 font-bold mx-auto mt-8 '>
                                 Add New Column
                             </button>

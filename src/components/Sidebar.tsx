@@ -1,4 +1,3 @@
-
 import boardIcon from '../assets/icon-board.svg';
 import plusIcon from '../assets/icon-add-task-mobile purple.svg';
 import purpleBoardIcon from '../assets/icon-board purple.svg';
@@ -22,10 +21,11 @@ const Sidebar = ({ onHide, show, onCreateBoard }: SidebarProps) => {
     return (
         <aside
             className={`pr-4 sm:pr-6 pb-8 w-[260px] sm:w-[300px] bg-white dark:bg-gray-dark text-gray-light 
-            flex flex-col min-h-[87vh] justify-between fixed top-[96px] left-0
-            transition-transform duration-300 ease-in-out z-20
-            hidden sm:block ${show ? 'translate-x-0' : '-translate-x-full'}`}>
-            <div className='flex flex-col gap-[14px] py-6 font-semibold'>
+            fixed top-[96px] left-0 transition-transform duration-300 ease-in-out z-20
+            ${
+                show ? 'translate-x-0' : '-translate-x-full'
+            } sm:flex sm:flex-col sm:min-h-[87vh] sm:justify-between`}>
+            <div className='flex flex-col gap-[14px] py-6 font-semibold '>
                 <h3 className='pl-4 sm:pl-8 font-bold text-xs'>
                     ALL BOARDS ({isLoading ? '...' : boards.length})
                 </h3>
