@@ -14,7 +14,7 @@ interface SidebarProps {
     onCreateBoard: () => void;
 }
 
-const Sidebar = ({ onHide, show, onCreateBoard }: SidebarProps) => {
+const Sidebar = ({ onHide, onCreateBoard }: SidebarProps) => {
     const { theme, toggleTheme } = useTheme();
     const { boards, currentBoard, setCurrentBoard, isLoading } = useBoard();
 
@@ -22,9 +22,7 @@ const Sidebar = ({ onHide, show, onCreateBoard }: SidebarProps) => {
         <aside
             className={`pr-4 sm:pr-6 pb-8 w-[260px] sm:w-[300px] bg-white dark:bg-gray-dark text-gray-light 
             fixed top-[96px] left-0 transition-transform duration-300 ease-in-out z-20
-            ${
-                show ? 'translate-x-0' : '-translate-x-full'
-            } sm:flex sm:flex-col sm:min-h-[87vh] sm:justify-between`}>
+            hidden sm:flex sm:flex-col sm:min-h-[87vh] sm:justify-between`}>
             <div className='flex flex-col gap-[14px] py-6 font-semibold '>
                 <h3 className='pl-4 sm:pl-8 font-bold text-xs'>
                     ALL BOARDS ({isLoading ? '...' : boards.length})

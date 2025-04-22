@@ -128,7 +128,7 @@ const AddTaskModal = ({ onClose }: AddTaskModalProps) => {
                 <h2 className='text-xl font-bold dark:text-white mb-6'>
                     Add New Task
                 </h2>
-                <form onSubmit={handleSubmit}>
+                <form >
                     <div className='mb-6'>
                         <label
                             htmlFor='title'
@@ -246,7 +246,6 @@ const AddTaskModal = ({ onClose }: AddTaskModalProps) => {
                     </div>
 
                     <div className='flex gap-4'>
-                        
                         <button
                             type='button'
                             onClick={onClose}
@@ -255,7 +254,7 @@ const AddTaskModal = ({ onClose }: AddTaskModalProps) => {
                             Cancel
                         </button>
                         <button
-                            type='submit'
+                            onClick={handleSubmit}
                             className='flex-1 p-2 bg-primary text-white font-bold rounded-full hover:bg-primary-light transition-colors'
                             disabled={isLoading}>
                             Create Task

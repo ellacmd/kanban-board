@@ -29,6 +29,7 @@ const StatusDropdown = ({ value, onChange, options }: StatusDropdownProps) => {
     return (
         <div className='relative' ref={dropdownRef}>
             <button
+                type='button'
                 onClick={() => setIsOpen(!isOpen)}
                 className='w-full text-left px-4 py-2 bg-white dark:bg-dark-secondary rounded-md border border-[#828FA3] dark:border-gray-dark text-[#828FA3] dark:text-white hover:border-primary transition-colors flex items-center justify-between'>
                 <span>{value}</span>
@@ -51,6 +52,7 @@ const StatusDropdown = ({ value, onChange, options }: StatusDropdownProps) => {
                 <div className='absolute top-full left-0 right-0 mt-2 bg-white dark:bg-dark-secondary rounded-lg shadow-lg z-[100]'>
                     {options.map((option) => (
                         <button
+                            type='button'
                             key={option}
                             onClick={() => {
                                 onChange(option);

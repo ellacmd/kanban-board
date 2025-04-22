@@ -96,7 +96,7 @@ const AddColumnModal = ({ onClose }: AddColumnModalProps) => {
                         <button
                             type='button'
                             onClick={onClose}
-                            className='flex-1 px-4 py-2 bg-gray-100 dark:bg-dark-primary text-gray-light dark:text-white rounded-full hover:bg-gray-200 dark:hover:bg-gray-dark transition-colors'
+                            className='flex-1 p-2 bg-soft-light dark:bg-white text-primary font-bold rounded-full hover:bg-[#d8d7f1] transition-colors'
                             disabled={isLoading}>
                             Cancel
                         </button>

@@ -160,7 +160,7 @@ const Header = () => {
                                 alt=''
                                 className=' sm:w-auto sm:h-auto'
                             />
-                            <span className='hidden sm:inline'>
+                            <span className='hidden md:inline'>
                                 Add New Task
                             </span>
                         </button>
